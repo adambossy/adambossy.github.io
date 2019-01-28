@@ -1,11 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Página de prueba<title>
+<script>
+
+function setCookie(cname,cvalue,exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires=" + d.toGMTString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function checkCookie() {
+  document.getElementById("old").innerHTML = getCookie("random");
+  setCookie("random", Math.random() * 100);
+  document.getElementById("new").innerHTML = getCookie("random");
+
+  var urlParams = new URLSearchParams(window.location.search);
+  var myParam = urlParams.get('from')
+  if (myParam = "app") {
+    window.location.replace("http://www.google.com/"); //cookie_test://x");
+  }
+}
+
+</script>
 </head>
-<body>
-  <h1>Trigger build</h1>
-  <footer>gpuma 2017</footer>
+<body onload="checkCookie()">
+	Old: <div id="old"></div><br/>
+	New: <div id="new"></div>
 </body>
 </html>
+
+
